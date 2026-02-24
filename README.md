@@ -1,3 +1,23 @@
+# AT Protocol Reference Implementation (TypeScript) — protoimsg fork
+
+> **This is an unofficial fork.** The upstream repository is [bluesky-social/atproto](https://github.com/bluesky-social/atproto). This fork is maintained by the [protoimsg](https://protoimsg.app) project and is not affiliated with or endorsed by Bluesky.
+
+## What changed in this fork
+
+Changes are scoped to `packages/pds/` only. No other packages are modified.
+
+- **Email rebranding** — All five Handlebars templates (`confirm-email`, `reset-password`, `delete-account`, `update-email`, `plc-operation`) and their subject lines now use protoimsg branding instead of Bluesky branding.
+- **Prometheus metrics** — Added `prom-client` with HTTP request duration/count histograms, SQLite query duration, active accounts gauge, repo operations counter, and Node.js default metrics. Exposed at `GET /metrics`.
+- **Enhanced health check** — `GET /xrpc/_health` now returns `uptimeSeconds`, `diskUsagePercent`, and `accountCount` alongside the version.
+- **SQLite pragma tuning** — Set `synchronous = NORMAL` and `cache_size = -20000` (20 MB) in the default pragmas for better write performance under WAL mode.
+- **Landing page** — The root `/` route shows protoimsg ASCII art and links to this fork.
+
+---
+
+*Everything below is from the original upstream README.*
+
+---
+
 # AT Protocol Reference Implementation (TypeScript)
 
 Welcome friends!
