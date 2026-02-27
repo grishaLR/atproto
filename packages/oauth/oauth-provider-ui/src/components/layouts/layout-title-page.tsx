@@ -55,16 +55,6 @@ export function LayoutTitlePage({
         )}
       >
         <div className="grid grow content-center md:justify-items-end">
-          {logo && (
-            <img
-              key="logo"
-              src={logo}
-              alt={name || t`Logo`}
-              aria-hidden
-              className="mb-2 h-12 w-12 md:mb-4 md:h-16 md:w-16"
-            />
-          )}
-
           {title && (
             <h1
               key="title"
@@ -87,7 +77,18 @@ export function LayoutTitlePage({
         <LocaleSelector key="localeSelector" className="m-1 md:m-2" />
       </div>
 
-      <main className="w-full p-6 md:max-w-3xl md:px-12">{children}</main>
+      <main className="w-full p-6 md:max-w-3xl md:px-12">
+        {logo && (
+          <img
+            key="logo"
+            src={logo}
+            alt={name || t`Logo`}
+            aria-hidden
+            className="mx-auto mb-6 h-20 w-20 md:h-24 md:w-24"
+          />
+        )}
+        {children}
+      </main>
     </div>
   )
 }
