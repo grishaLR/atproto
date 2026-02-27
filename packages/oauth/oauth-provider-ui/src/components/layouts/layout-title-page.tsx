@@ -1,3 +1,4 @@
+import { useLingui } from '@lingui/react/macro'
 import { clsx } from 'clsx'
 import { JSX, ReactNode } from 'react'
 import type { CustomizationData } from '@atproto/oauth-provider-api'
@@ -15,7 +16,7 @@ export type LayoutTitlePageProps = Override<
 >
 
 export function LayoutTitlePage({
-  customizationData,
+  customizationData: { logo, name } = {},
   title,
   subtitle,
   htmlTitle = typeof title === 'string' ? title : undefined,
@@ -25,6 +26,8 @@ export function LayoutTitlePage({
   children,
   ...props
 }: LayoutTitlePageProps) {
+  const { t } = useLingui()
+
   return (
     <div
       {...props}
@@ -52,6 +55,16 @@ export function LayoutTitlePage({
         )}
       >
         <div className="grid grow content-center md:justify-items-end">
+          {logo && (
+            <img
+              key="logo"
+              src={logo}
+              alt={name || t`Logo`}
+              aria-hidden
+              className="mb-2 h-12 w-12 md:mb-4 md:h-16 md:w-16"
+            />
+          )}
+
           {title && (
             <h1
               key="title"

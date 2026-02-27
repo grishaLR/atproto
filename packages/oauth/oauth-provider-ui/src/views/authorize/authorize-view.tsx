@@ -155,6 +155,7 @@ export function AuthorizeView({
     return (
       <ResetPasswordView
         {...props}
+        customizationData={customizationData}
         emailDefault={resetPasswordHint}
         onresetPasswordRequest={doInitiatePasswordReset}
         onResetPasswordConfirm={doConfirmResetPassword}
@@ -167,6 +168,7 @@ export function AuthorizeView({
     return (
       <SignInView
         {...props}
+        customizationData={customizationData}
         loginHint={authorizeData.loginHint}
         sessions={sessions}
         selectSub={selectSub}
@@ -189,6 +191,7 @@ export function AuthorizeView({
     return (
       <ConsentView
         {...props}
+        customizationData={customizationData}
         clientId={authorizeData.clientId}
         clientMetadata={authorizeData.clientMetadata}
         clientTrusted={authorizeData.clientTrusted}
