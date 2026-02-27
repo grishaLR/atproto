@@ -84,7 +84,7 @@ export function LayoutTitlePage({
             src={logo}
             alt={name || t`Logo`}
             aria-hidden
-            className="mx-auto mb-6 h-20 w-20 md:h-24 md:w-24"
+            className="mx-auto mb-6 h-auto w-full max-w-md"
           />
         )}
         {children}
