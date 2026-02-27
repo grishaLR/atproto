@@ -72,9 +72,9 @@ export function createAuthorizationPageMiddleware<
       // "same-origin" is required to support the redirect test logic below (as
       // well as refreshing the authorization page).
 
-      // @TODO Consider removing this altogether to allow hosting PDS and app on
-      // the same site but different origins (different subdomains).
-      validateFetchSite(req, ['same-origin', 'cross-site', 'none'])
+      // Allow 'same-site' for cases where the PDS and client app share the
+      // same eTLD+1 (e.g. protoimsg.app → pds.protoimsg.app).
+      validateFetchSite(req, ['same-origin', 'same-site', 'cross-site', 'none'])
       validateFetchMode(req, ['navigate'])
       validateFetchDest(req, ['document'])
       validateOrigin(req, issuerOrigin)
