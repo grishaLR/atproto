@@ -638,7 +638,7 @@ const defaultService = (
  * However the receiving service expects the bare DID as the JWT audience,
  * so we strip the fragment before creating the service-auth JWT.
  */
-const stripFragment = (did: string): string => {
+export const stripFragment = (did: string): string => {
   const idx = did.indexOf('#')
   return idx === -1 ? did : did.slice(0, idx)
 }
