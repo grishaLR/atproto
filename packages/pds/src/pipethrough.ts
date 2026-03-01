@@ -226,8 +226,10 @@ export async function parseProxyInfo(
   const proxyToHeader = req.header('atproto-proxy')
   if (proxyToHeader) return parseProxyHeader(ctx, proxyToHeader)
 
-  const { serviceInfo } = defaultService(ctx, lxm)
-  if (serviceInfo) return serviceInfo
+  const { serviceId, serviceInfo } = defaultService(ctx, lxm)
+  if (serviceInfo) {
+    return { url: serviceInfo.url, did: `${serviceInfo.did}#${serviceId}` }
+  }
 
   throw new InvalidRequestError(`No service configured for ${lxm}`)
 }
@@ -266,7 +268,7 @@ export const parseProxyHeader = async (
     ctx.cfg.bskyAppView &&
     proxyTo === `${ctx.cfg.bskyAppView.did}#bsky_appview`
   ) {
-    return { did, url: ctx.cfg.bskyAppView.url }
+    return { did: proxyTo, url: ctx.cfg.bskyAppView.url }
   }
 
   const didDoc = await ctx.idResolver.did.resolve(did)
@@ -280,7 +282,7 @@ export const parseProxyHeader = async (
     throw new InvalidRequestError('could not resolve proxy did service url')
   }
 
-  return { did, url }
+  return { did: proxyTo, url }
 }
 
 /**
