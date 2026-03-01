@@ -75,9 +75,24 @@ describe('proxy header', () => {
     expect(
       parseProxyHeader(network.pds.ctx, `${proxyServer.did}#atproto_test`),
     ).resolves.toEqual({
-      did: proxyServer.did,
+      did: `${proxyServer.did}#atproto_test`,
       url: proxyServer.url,
     })
+  })
+
+  it('preserves service fragment in returned did', async () => {
+    // The service fragment (e.g. #bsky_appview) must be included in the
+    // returned `did` so that scope checks match the audience used during
+    // token issuance. Without the fragment, `include:` permission-set scopes
+    // that use `inheritAud` expand to `rpc:...?aud=did:...#fragment` but the
+    // pipethrough would check against `did:...` (no fragment) — causing a
+    // scope mismatch and 403.
+    const result = await parseProxyHeader(
+      network.pds.ctx,
+      `${proxyServer.did}#atproto_test`,
+    )
+    expect(result.did).toBe(`${proxyServer.did}#atproto_test`)
+    expect(result.did).toContain('#')
   })
 
   it('proxies requests based on header', async () => {
@@ -92,6 +107,9 @@ describe('proxy header', () => {
     assert(req)
     expect(req.url).toEqual(path)
     assert(req.auth)
+    // The JWT audience should be the bare DID (no fragment) because the
+    // receiving service verifies against its own DID without fragments.
+    // The fragment is only used for scope-checking within the PDS.
     const verified = await verifyJwt(
       req.auth.replace('Bearer ', ''),
       proxyServer.did,
